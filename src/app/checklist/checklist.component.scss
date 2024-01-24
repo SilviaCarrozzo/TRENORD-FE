@@ -1,0 +1,35 @@
+.Title {
+  font-weight: 600;
+  color: darkblue;
+  margin-top: 8px;
+    margin-bottom: 20px;
+    color: #000000d9;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: 'Roboto',Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji",sans-serif;
+    line-height: 38px;
+}
+
+.text-truncate {
+  max-width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.img-width {
+  width: 60px;
+  //height: 50px;
+}
+
+.zoom {
+  transition: transform .2s;
+  width: 70px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.6); /* IE 9 */
+  -webkit-transform: scale(1.6); /* Safari 3-8 */
+  transform: scale(1.6);
+}

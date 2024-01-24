@@ -1,0 +1,193 @@
+<h2 class="Title">Checklist Chiavi</h2>
+
+<div class="">
+  <table mat-table [dataSource]="dataSource" class="table table-striped table-responsive-md mat-elevation-z8">
+
+    <!-- Checkbox Column
+    'index', 'todo_list', 'screw', 'fact', 'associate_key', 'details'-->
+    <!-- Position Column -->
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.i}} </td>
+    </ng-container>
+    <!-- Todo List Column -->
+    <ng-container matColumnDef="todo_list">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Screw Type Column -->
+    <ng-container matColumnDef="screw">
+      <th mat-header-cell *matHeaderCellDef> Screw Type </th>
+      <td mat-cell *matCellDef="let element"class="img-width">
+        <img
+          [src]="imageSource + 'vite_' + element.length + '.jpg'"
+          [alt]="'The '+ element.length +'° screw'"
+          [title]="'The '+ element.length +'° screw'"
+          class="me-2 zoom"
+        /></td>
+    </ng-container>
+
+    <!-- 'Fact' Column -->
+    <ng-container matColumnDef="fact">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell class="text-truncate" *matCellDef="let element"> {{element.fact}} </td>
+    </ng-container>
+
+    <!-- Associate_key Column -->
+    <ng-container matColumnDef="associate_key">
+      <th mat-header-cell *matHeaderCellDef> Associate_key </th>
+      <td mat-cell *matCellDef="let element"class="img-width">
+        <img
+          [src]="imageSource + 'chiave_' + element.length + '.jpg'"
+          [alt]="'The' + element.length +'° key'"
+          [title]="'The' + element.length +'° key'"
+          class="me-2 zoom"
+        /> {{element.associate_key}} </td>
+    </ng-container>
+
+    <!-- Details Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element">
+        <button [routerLink]="['/details/', element.length]" [state]="element">more</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"
+        (click)="selection.toggle(row)">
+    </tr>
+  </table>
+
+  <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
+
+
+<!--<table class="table table-striped table-responsive-md">
+  <thead class="orange">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Screw</th>
+      <th scope="col" sortable="fact">Checks</th>
+      <th scope="col" sortable="length">Chiave associata</th>
+      <th scope="col">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let check of checkList; let i = index">
+        <th scope="row">{{ i+1 }}° vite: {{check.length}}</th>
+        <td class="img-width">
+          <img
+            [src]="imageSource + 'vite_' + check.length + '.jpg'"
+            [alt]="'The '+ i +'° screw'"
+            [title]="'The '+ i +'° screw'"
+            class="me-2 zoom"
+          />
+        </td>
+        <td class="text-truncate"> {{check.fact}}</td>
+        <td class="img-width zoom">
+          <img
+            [src]="imageSource + 'chiave_' + check.length + '.jpg'"
+            [alt]="'The' + i +'° key'"
+            [title]="'The' + i +'° key'"
+            class="me-2 zoom"
+          />
+        </td>
+        <td>
+          <button [routerLink]="['/details/', i]" [state]="check">details</button>
+        </td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+<nz-table
+  #dynamicTable
+  [nzScroll]="{ x: 'scroll', y: 'scroll' }"
+  [nzData]="displayData"
+  [nzTableLayout]="settingValue.tableLayout"
+  [nzBordered]="settingValue.bordered"
+  [nzSimple]="settingValue.simple"
+  [nzLoading]="settingValue.loading"
+  [nzPaginationType]="settingValue.paginationType"
+  [nzPaginationPosition]="settingValue.position"
+  [nzShowSizeChanger]="settingValue.sizeChanger"
+  [nzFrontPagination]="settingValue.pagination"
+  [nzShowPagination]="settingValue.pagination"
+  [nzFooter]="settingValue.footer ? 'Here is Footer' : null"
+  [nzTitle]="settingValue.title ? 'Here is Title' : null"
+  [nzSize]="settingValue.size"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)"
+  >
+  <thead>
+    <tr *ngIf="settingValue.header">
+      <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+
+      <th [nzLeft]="fixedColumn" scope="col">#</th>
+      <th scope="col">Screw</th>
+      <th scope="col" sortable="fact">Checks</th>
+      <th scope="col" sortable="length">Chiave associata</th>
+      <th [nzRight]="fixedColumn" scope="col">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of dynamicTable.data; let i = index">
+      <tr>
+        <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
+        <td
+          [nzLeft]="fixedColumn"
+          *ngIf="settingValue.checkbox"
+          [(nzChecked)]="data.checked"
+          (nzCheckedChange)="refreshStatus()"
+        ></td>
+        <td class="img-width">
+          <img
+            [src]="imageSource + 'vite_' + data.length + '.jpg'"
+            [alt]="'The '+ i +'° screw'"
+            [title]="'The '+ i +'° screw'"
+            class="me-2 zoom"
+          />
+        </td>
+        <td [nzEllipsis]="true" class="text-truncate"> {{data.fact}}</td>
+        <td class="img-width zoom">
+          <img
+            [src]="imageSource + 'chiave_' + data.length + '.jpg'"
+            [alt]="'The' + i +'° key'"
+            [title]="'The' + i +'° key'"
+            class="me-2 zoom"
+          />
+        </td>
+        <td>
+          <button [routerLink]="['/details/', i]" [state]="data">details</button>
+        </td>
+        <!-<td>
+          <a href="#">Delete</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a href="#">More action</a>
+        </td>->
+      </tr>
+      <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+        <span>{{ data.fact }}</span>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+-->
+
