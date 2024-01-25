@@ -7,8 +7,8 @@
     [nzTrigger]="null">
     <div class="sidebar-logo container-logo">
         <a href="https://www.trenord.it">
-          <img class="img-responsive logo-top desk eyeAbleContrastSkip" alt="logo top" src="/assets/imgs/logo-mob.png" width="96%" height="61">
-          <!--<img class="img-responsive logo-top mob eyeAbleContrastSkip" alt="logo top" src="/assets/imgs/logo-mob.png" width="46%" height="61">-->
+          <img *ngIf="isCollapsed" class="img-responsive logo-top desk eyeAbleContrastSkip" alt="logo top" src="/assets/imgs/logo-mob_ridotto.png" width="97%">
+          <img *ngIf="!isCollapsed" class="img-responsive logo-top mob eyeAbleContrastSkip" alt="logo top" src="/assets/imgs/logo_trenord_500.png" width="95%">
         </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
